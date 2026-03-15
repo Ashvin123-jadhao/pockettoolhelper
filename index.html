@@ -1,23 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PocketTools</title>
-  <style>
-    body{
-      font-family: Arial;
-      text-align:center;
-      margin-top:100px;
-      background:#f5f5f5;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>PocketTools - Text Counter</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>Hello from PocketTools 🚀</h1>
+<header>
+<h1>PocketTools</h1>
+<p>Simple tools for everyday tasks</p>
+</header>
 
-<p>Your domain + hosting setup is working.</p>
+<div class="container">
+
+<h2>Character Counter</h2>
+
+<textarea id="textInput" placeholder="Type or paste your text here..."></textarea>
+
+<div class="result">
+
+<div class="card">
+<h3>Characters</h3>
+<p id="charCount">0</p>
+</div>
+
+<div class="card">
+<h3>Words</h3>
+<p id="wordCount">0</p>
+</div>
+
+<div class="card">
+<h3>Sentences</h3>
+<p id="sentenceCount">0</p>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+<p>© PocketTools</p>
+</footer>
+
+<script src="app.js"></script>
 
 </body>
-
 </html>
