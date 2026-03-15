@@ -1,0 +1,86 @@
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.hero h1{
+    font-size:36px;
+    margin-bottom:10px;
+    color:#0f172a;
+}
+
+.hero p{
+    color:#475569;
+}
+
+/* CATEGORY GRID */
+
+.categoryGrid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin-top:16px;
+}
+
+.categoryCard{
+    border:1px solid #cbd5e1;
+    padding:20px;
+    border-radius:8px;
+    background:white;
+}
+
+/* TOOLS GRID */
+
+.toolsGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:16px;
+}
+
+.toolCard{
+    border:1px solid #cbd5e1;
+    padding:14px;
+    border-radius:8px;
+    text-align:center;
+    background:white;
+    color:#0f172a;
+    text-decoration:none;
+}
+
+.toolCard:hover{
+    border-color:#2563eb;
+}
+
+/* FEATURES */
+
+.features{
+    margin-top:40px;
+}
+
+.features ul{
+    margin-top:10px;
+    padding-left:18px;
+}
+
+/* HOW */
+
+.how{
+    margin-top:40px;
+}
+
+/* SEO */
+
+.seo{
+    margin-top:40px;
+    color:#334155;
+    line-height:1.7;
+}
