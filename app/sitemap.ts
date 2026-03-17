@@ -13,8 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const tools = toolPages.map((tool) => ({
         url: `${baseUrl}/tools/${tool}`,
         lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.8,
+        changeFrequency: "weekly" as const,
+        priority: 1.0,
     }));
 
     return [
