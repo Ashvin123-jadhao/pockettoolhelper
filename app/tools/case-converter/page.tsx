@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import CaseConverterClient from "./CaseConverterClient"
 import StructuredData from "@/components/StructuredData"
 
-const url = "https://pockettoolhelper.com/tools/case-converter"
+const url = "https://www.pockettoolhelper.com/tools/case-converter"
 
 export const metadata: Metadata = {
     title: "Case Converter – Uppercase, Lowercase & Text Case Tool",

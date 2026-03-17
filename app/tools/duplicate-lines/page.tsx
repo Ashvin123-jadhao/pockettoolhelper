@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import DuplicateLinesClient from "./DuplicateLineRemoverClient"
 import StructuredData from "@/components/StructuredData"
 
-const url = "https://pockettoolhelper.com/tools/duplicate-lines"
+const url = "https://www.pockettoolhelper.com/tools/duplicate-lines"
 
 export const metadata: Metadata = {
     title: "Remove Duplicate Lines – Free Text Cleaner Tool",

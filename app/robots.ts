@@ -4,6 +4,6 @@ export default function robots() {
             userAgent: "*",
             allow: "/",
         },
-        sitemap: "https://pockettoolhelper.com/sitemap.xml",
+        sitemap: "https://www.pockettoolhelper.com/sitemap.xml",
     };
 }

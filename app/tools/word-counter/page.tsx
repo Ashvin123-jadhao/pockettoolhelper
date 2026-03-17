@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import WordCounterClient from "./WordCounterClient"
 import StructuredData from "@/components/StructuredData"
 
-const url = "https://pockettoolhelper.com/tools/word-counter"
+const url = "https://www.pockettoolhelper.com/tools/word-counter"
 
 export const metadata: Metadata = {
     title: "Word Counter – Free Online Word & Character Counter",

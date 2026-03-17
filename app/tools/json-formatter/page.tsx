@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import JsonFormatterClient from "./JsonFormatterClient"
 import StructuredData from "@/components/StructuredData"
 
-const url = "https://pockettoolhelper.com/tools/json-formatter"
+const url = "https://www.pockettoolhelper.com/tools/json-formatter"
 
 export const metadata: Metadata = {
     title: "JSON Formatter – Free Online Tool",
