@@ -13,7 +13,7 @@ return(
 {/*<a href="/tools/slug-generator">Slug Generator</a>*/}
 {/*<a href="/tools/password-generator">Password Generator</a>*/}
 {/*<a href="/tools/reading-time">Reading Time</a>*/}
-{/*<a href="/tools/json-formatter">Json Formatter</a>*/}
+<a href="/tools/json-formatter">Json Formatter</a>
 {/*<a href="/tools/json-minifier">Json Minifier</a>*/}
 {/*<a href="/tools/base64-encode">Base64 Encode</a>*/}
 {/*<a href="/tools/base64-decode">Base64 Decode</a>*/}
