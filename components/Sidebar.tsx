@@ -1,25 +1,66 @@
+"use client"
+
+import { useState } from "react"
+import styles from "./Sidebar.module.css"
+
+const categories = {
+    "Text Tools":[
+        {name:"Word Counter",url:"/tools/word-counter"},
+        {name:"Case Converter",url:"/tools/case-converter"},
+        {name:"Duplicate Lines",url:"/tools/duplicate-lines"}
+    ],
+
+    "Developer Tools":[
+        {name:"JWT Decoder",url:"/tools/jwt-decoder"},
+        {name:"Base64 Encoder Decoder",url:"/tools/base64-encoder-decoder"},
+        {name:"Regex Tester",url:"/tools/regex-tester"},
+        {name:"JSON Formatter",url:"/tools/json-formatter"}
+    ],
+
+    "Utility Tools":[
+        {name:"URL Encoder Decoder",url:"/tools/url-encoder-decoder"},
+        {name:"UUID Generator",url:"/tools/uuid-generator"}
+    ]
+}
 
 export default function Sidebar(){
-return(
-<div className="sidebar">
-<div className="logo">PocketTools</div>
-<a href="/">Home</a>
-<h4>Tools</h4>
-<a href="/tools/word-counter">Word Counter</a>
-<a href="/tools/case-converter">Case Converter</a>
-<a href="/tools/duplicate-lines">Duplicate Lines</a>
-<a href="/tools/jwt-decoder">JWT Decoder</a>
-{/*<a href="/tools/reverse-text">Reverse Text</a>*/}
-{/*<a href="/tools/slug-generator">Slug Generator</a>*/}
-{/*<a href="/tools/password-generator">Password Generator</a>*/}
-{/*<a href="/tools/reading-time">Reading Time</a>*/}
-<a href="/tools/json-formatter">Json Formatter</a>
-{/*<a href="/tools/json-minifier">Json Minifier</a>*/}
-{/*<a href="/tools/base64-encode">Base64 Encode</a>*/}
-{/*<a href="/tools/base64-decode">Base64 Decode</a>*/}
-{/*<a href="/tools/url-encode">Url Encode</a>*/}
-{/*<a href="/tools/url-decode">Url Decode</a>*/}
-{/*<a href="/tools/random-string">Random String</a>*/}
-</div>
-)
+
+    const [search,setSearch]=useState("")
+
+    const filterTool=(name:string)=>{
+        return name.toLowerCase().includes(search.toLowerCase())
+    }
+
+    return(
+
+        <div className={styles.sidebar}>
+
+            <div className={styles.logo}>PocketTools</div>
+
+            <input
+                className={styles.search}
+                placeholder="Search tools..."
+                value={search}
+                onChange={(e)=>setSearch(e.target.value)}
+            />
+
+            {Object.entries(categories).map(([category,tools])=>(
+                <div key={category}>
+
+                    <div className={styles.category}>{category}</div>
+
+                    {tools
+                        .filter(tool=>filterTool(tool.name))
+                        .map(tool=>(
+                            <a key={tool.url} href={tool.url} className={styles.link}>
+                                {tool.name}
+                            </a>
+                        ))}
+
+                </div>
+            ))}
+
+        </div>
+
+    )
 }
