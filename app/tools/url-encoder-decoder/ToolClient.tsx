@@ -20,7 +20,11 @@ export default function ToolClient() {
  return (
   <div className={styles.container}>
 
-   <h1 className={styles.title}>URL Encoder / Decoder</h1>
+      <h1 className={styles.title}>URL Encoder / Decoder</h1>
+
+      <p className={styles.subtitle}>
+          Encode or decode URLs instantly for safe web usage
+      </p>
 
    <textarea
     className={styles.textarea}
