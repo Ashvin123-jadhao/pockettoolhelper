@@ -8,7 +8,7 @@ return(
 <a href="/tools/word-counter">Word Counter</a>
 <a href="/tools/case-converter">Case Converter</a>
 <a href="/tools/duplicate-lines">Duplicate Lines</a>
-{/*<a href="/tools/text-cleaner">Text Cleaner</a>*/}
+<a href="/tools/jwt-decoder">JWT Decoder</a>
 {/*<a href="/tools/reverse-text">Reverse Text</a>*/}
 {/*<a href="/tools/slug-generator">Slug Generator</a>*/}
 {/*<a href="/tools/password-generator">Password Generator</a>*/}

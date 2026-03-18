@@ -63,7 +63,7 @@ export default function HomePage(){
                         Case Converter
                     </Link>
 
-                    <Link href="/tools/text-cleaner" className={styles.toolCard}>
+                    <Link href="/tools/jwt-decoder" className={styles.toolCard}>
                         Text Cleaner
                     </Link>
 

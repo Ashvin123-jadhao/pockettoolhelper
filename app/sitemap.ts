@@ -7,7 +7,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         "word-counter",
         "case-converter",
         "duplicate-lines",
-        "json-formatter"
+        "json-formatter",
+        "jwt-decoder"
     ];
 
     const tools = toolPages.map((tool) => ({
