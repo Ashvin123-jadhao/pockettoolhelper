@@ -24,7 +24,10 @@ const categories = {
     ]
 }
 
-export default function Sidebar(){
+export default function Sidebar({ open, setOpen }: {
+    open: boolean
+    setOpen: (v: boolean) => void
+}){
 
     const [search,setSearch]=useState("")
 
@@ -33,39 +36,44 @@ export default function Sidebar(){
     }
 
     return(
-        <div className={styles.sidebar}>
+        <>
+            {/* Overlay (mobile only) */}
+            {open && <div className={styles.overlay} onClick={()=>setOpen(false)} />}
 
-            {/* Search */}
-            <input
-                type="text"
-                className={styles.search}
-                placeholder="Search tools..."
-                aria-label="Search tools"
-                value={search}
-                onChange={(e)=>setSearch(e.target.value)}
-            />
+            <div className={`${styles.sidebar} ${open ? styles.open : ""}`}>
 
-            {/* Categories */}
-            {Object.entries(categories).map(([category,tools])=>(
-                <div key={category}>
+                {/* Search */}
+                <input
+                    type="text"
+                    className={styles.search}
+                    placeholder="Search tools..."
+                    value={search}
+                    onChange={(e)=>setSearch(e.target.value)}
+                />
 
-                    <div className={styles.category}>{category}</div>
+                {/* Categories */}
+                {Object.entries(categories).map(([category,tools])=>(
+                    <div key={category}>
 
-                    {tools
-                        .filter(tool=>filterTool(tool.name))
-                        .map(tool=>(
-                            <Link
-                                key={tool.url}
-                                href={tool.url}
-                                className={styles.link}
-                            >
-                                {tool.name}
-                            </Link>
-                        ))}
+                        <div className={styles.category}>{category}</div>
 
-                </div>
-            ))}
+                        {tools
+                            .filter(tool=>filterTool(tool.name))
+                            .map(tool=>(
+                                <Link
+                                    key={tool.url}
+                                    href={tool.url}
+                                    className={styles.link}
+                                    onClick={()=>setOpen(false)} // close on click
+                                >
+                                    {tool.name}
+                                </Link>
+                            ))}
 
-        </div>
+                    </div>
+                ))}
+
+            </div>
+        </>
     )
 }

@@ -4,26 +4,42 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 
-export default function Header() {
-    const [open, setOpen] = useState(false);
+export default function Header({
+                                   open,
+                                   setOpen
+                               }: {
+    open: boolean
+    setOpen: (v: boolean) => void
+}) {
+
 
     return (
         <header style={styles.header}>
             <div style={styles.container}>
 
-                {/* Logo EXTREME LEFT */}
-                <Link href="/" style={styles.logoWrapper}>
-                    <div>
-                        <Image
-                            src="/newLogo.png"
-                            alt="Pocket Tool Helper"
-                            width={80}
-                            height={80}
-                            style={styles.logoImg}
-                            priority
-                        />
-                    </div>
-                </Link>
+                <div style={styles.leftSection}>
+
+                    <button
+                        onClick={() => setOpen(prev => !prev)}
+                        style={styles.menuButton}
+                    >
+                        ☰
+                    </button>
+
+                    <Link href="/" style={styles.logoWrapper}>
+                        <div>
+                            <Image
+                                src="/newLogo.png"
+                                alt="Pocket Tool Helper"
+                                width={80}
+                                height={80}
+                                style={styles.logoImg}
+                                priority
+                            />
+                        </div>
+                    </Link>
+
+                </div>
 
                 <div style={styles.title}>
                     Pocket Tool Helper
@@ -35,23 +51,7 @@ export default function Header() {
                     <Link href="/tools" style={styles.link}>Tools</Link>
                     <Link href="/privacy" style={styles.link}>Privacy</Link>
                 </nav>
-
-                {/* Mobile Menu Button */}
-                <button
-                    style={styles.menuBtn}
-                    onClick={() => setOpen(!open)}
-                >
-                    ☰
-                </button>
             </div>
-
-            {open && (
-                <div style={styles.mobileMenu}>
-                    <Link href="/" onClick={() => setOpen(false)}>Home</Link>
-                    <Link href="/tools" onClick={() => setOpen(false)}>Tools</Link>
-                    <Link href="/privacy" onClick={() => setOpen(false)}>Privacy</Link>
-                </div>
-            )}
         </header>
     );
 }
@@ -74,17 +74,20 @@ const styles = {
         display: "flex",
         alignItems: "center",
     },
+
     title: {
-        justifySelf: "center",
+        fontSize: "clamp(14px, 4vw, 20px)", // ✅ responsive
+        fontWeight: 600,
 
-        fontSize: "60px",
-        fontWeight: 700,
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        alignItems :"center",
 
-        background: "rgb(232,230,230)",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-
-        letterSpacing: "0.6px",
+        maxWidth: "100%",
+        flex: 1,              // ✅ take available space
+        minWidth: 0,          // 🔥 REQUIRED for ellipsis in flex
+        color: "#ffffff"
     },
 
 
@@ -95,7 +98,7 @@ const styles = {
         padding: "0 20px",
 
         display: "flex",
-        justifyContent: "space-between",  // 🔥 pushes nav to right
+        gap: "12px",  // 🔥 pushes nav to right
         alignItems: "center",
     },
 
@@ -107,14 +110,16 @@ const styles = {
     },
 
     logoImg: {
-        height: "150px",     // 🔥 fit inside header
-        width: "200px",
-        marginTop: "60px"
+        height: "120px",
+        width: "auto",
+        objectFit: "contain",
+        marginTop: "30px"
     },
     nav: {
         display: "flex",
         gap: "24px",
         alignItems: "center",
+        marginLeft: "auto"
     },
 
     link: {
@@ -140,4 +145,23 @@ const styles = {
         backgroundColor: "#020617",
         borderTop: "1px solid #1e293b",
     }
+    ,
+    leftSection: {
+        display: "flex",
+        alignItems: "center",
+        gap: "10px",
+        minWidth: 0, // 🔥 important for flex shrink
+    },
+
+    menuButton: {
+        fontSize: "22px",
+        background: "none",
+        border: "none",
+        color: "#e2e8f0",
+        cursor: "pointer",
+        padding: "6px 10px",
+        borderRadius: "6px",
+        transition: "all 0.2s ease",
+    },
+
 };

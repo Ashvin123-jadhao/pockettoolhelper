@@ -1,38 +1,21 @@
-import './globals.css'
-import Sidebar from '../components/Sidebar'
-import Header from '../components/Header'
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import Footer from "@/components/Footer";
+import LayoutClient from "@/components/LayoutClient"
+import {SpeedInsights} from "@vercel/speed-insights/next";
+import {Analytics} from "@vercel/analytics/react";
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+                                       children,
+                                   }: {
+    children: React.ReactNode
+}) {
     return (
-        <html>
+        <html lang="en">
         <body>
-        <div className="page">
-
-            <Header />
-
-            <div className="main">
-                <Sidebar />
-
-                <div className="content">
-                    {children}
-                </div>
-            </div>
-
-
-            <Analytics />
-            <SpeedInsights />
-
-        </div>
+        <LayoutClient>
+            {children}
+        </LayoutClient>
+        <Analytics/>
+        <SpeedInsights/>
         </body>
         </html>
-    );
+    )
 }
-
-export const metadata = {
-    icons: {
-        icon: "/favicon.ico",
-    },
-};
