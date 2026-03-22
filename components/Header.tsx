@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import Image from "next/image";
+import { Dispatch, SetStateAction } from "react"
 
 export default function Header({
                                    open,
                                    setOpen
                                }: {
     open: boolean
-    setOpen: (v: boolean) => void
+    setOpen: Dispatch<SetStateAction<boolean>>
 }) {
 
 
