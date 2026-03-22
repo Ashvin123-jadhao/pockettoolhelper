@@ -26,8 +26,6 @@ export default function JwtDecoderClient() {
 
             const payloadData = result.payload
 
-            /* timestamp conversion */
-
             if(payloadData.iat){
                 payloadData.iat_readable = formatTimestamp(payloadData.iat)
             }
@@ -40,10 +38,7 @@ export default function JwtDecoderClient() {
                 payloadData.nbf_readable = formatTimestamp(payloadData.nbf)
             }
 
-            /* expiration check */
-
             if(payloadData.exp){
-
                 const expStatus = checkExpiration(payloadData.exp)
 
                 if(expStatus?.expired){
@@ -70,7 +65,6 @@ export default function JwtDecoderClient() {
     }
 
     const clearAll = () => {
-
         setToken("")
         setHeader("")
         setPayload("")
@@ -84,8 +78,6 @@ export default function JwtDecoderClient() {
 
             <h1 className={styles.title}>JWT Decoder</h1>
 
-            {/* INPUT */}
-
             <textarea
                 className={styles.textarea}
                 placeholder="Paste your JWT token here..."
@@ -93,19 +85,18 @@ export default function JwtDecoderClient() {
                 onChange={(e)=>setToken(e.target.value)}
             />
 
-            {/* BUTTONS */}
-
-            <div className={styles["tool-buttons"]}>
+            {/* Buttons */}
+            <div className={styles.buttons}>
 
                 <button
-                    className={`${styles.btn} ${styles.primary}`}
+                    className={styles.button}
                     onClick={handleDecode}
                 >
                     Decode
                 </button>
 
                 <button
-                    className={`${styles.btn} ${styles.secondary}`}
+                    className={styles.button}
                     onClick={clearAll}
                 >
                     Clear
@@ -113,66 +104,67 @@ export default function JwtDecoderClient() {
 
             </div>
 
-            {/* STATUS */}
-
+            {/* Status */}
             {status && (
-                <p style={{marginTop:"12px",fontWeight:"600"}}>
-                    {status}
-                </p>
+                <p className={styles.status}>{status}</p>
             )}
 
             {error && (
                 <p className={styles.error}>{error}</p>
             )}
 
-            {/* HEADER */}
-
+            {/* Header */}
             {header && (
 
-                <>
+                <div className={styles.section}>
+
                     <h2 className={styles.title}>Header</h2>
 
-                    <textarea
-                        className={styles.textarea}
-                        readOnly
-                        value={header}
-                    />
+                    <div className={styles.card}>
+                        <textarea
+                            className={styles.textarea}
+                            readOnly
+                            value={header}
+                        />
+                    </div>
 
-                    <div className={styles["tool-buttons"]}>
+                    <div className={styles.buttons}>
                         <button
-                            className={`${styles.btn} ${styles.outline}`}
+                            className={styles.button}
                             onClick={()=>copyToClipboard(header)}
                         >
                             Copy Header
                         </button>
                     </div>
 
-                </>
+                </div>
             )}
 
-            {/* PAYLOAD */}
-
+            {/* Payload */}
             {payload && (
 
-                <>
+                <div className={styles.section}>
+
                     <h2 className={styles.title}>Payload</h2>
 
-                    <textarea
-                        className={styles.textarea}
-                        readOnly
-                        value={payload}
-                    />
+                    <div className={styles.card}>
+                        <textarea
+                            className={styles.textarea}
+                            readOnly
+                            value={payload}
+                        />
+                    </div>
 
-                    <div className={styles["tool-buttons"]}>
+                    <div className={styles.buttons}>
                         <button
-                            className={`${styles.btn} ${styles.outline}`}
+                            className={styles.button}
                             onClick={()=>copyToClipboard(payload)}
                         >
                             Copy Payload
                         </button>
                     </div>
 
-                </>
+                </div>
             )}
 
         </div>

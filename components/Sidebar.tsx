@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import styles from "./Sidebar.module.css"
+import Link from "next/link"
 
 const categories = {
     "Text Tools":[
@@ -23,7 +24,10 @@ const categories = {
     ]
 }
 
-export default function Sidebar(){
+export default function Sidebar({ open, setOpen }: {
+    open: boolean
+    setOpen: (v: boolean) => void
+}){
 
     const [search,setSearch]=useState("")
 
@@ -32,35 +36,44 @@ export default function Sidebar(){
     }
 
     return(
+        <>
+            {/* Overlay (mobile only) */}
+            {open && <div className={styles.overlay} onClick={()=>setOpen(false)} />}
 
-        <div className={styles.sidebar}>
+            <div className={`${styles.sidebar} ${open ? styles.open : ""}`}>
 
-            <div className={styles.logo}>PocketTools</div>
+                {/* Search */}
+                <input
+                    type="text"
+                    className={styles.search}
+                    placeholder="Search tools..."
+                    value={search}
+                    onChange={(e)=>setSearch(e.target.value)}
+                />
 
-            <input
-                className={styles.search}
-                placeholder="Search tools..."
-                value={search}
-                onChange={(e)=>setSearch(e.target.value)}
-            />
+                {/* Categories */}
+                {Object.entries(categories).map(([category,tools])=>(
+                    <div key={category}>
 
-            {Object.entries(categories).map(([category,tools])=>(
-                <div key={category}>
+                        <div className={styles.category}>{category}</div>
 
-                    <div className={styles.category}>{category}</div>
+                        {tools
+                            .filter(tool=>filterTool(tool.name))
+                            .map(tool=>(
+                                <Link
+                                    key={tool.url}
+                                    href={tool.url}
+                                    className={styles.link}
+                                    onClick={()=>setOpen(false)} // close on click
+                                >
+                                    {tool.name}
+                                </Link>
+                            ))}
 
-                    {tools
-                        .filter(tool=>filterTool(tool.name))
-                        .map(tool=>(
-                            <a key={tool.url} href={tool.url} className={styles.link}>
-                                {tool.name}
-                            </a>
-                        ))}
+                    </div>
+                ))}
 
-                </div>
-            ))}
-
-        </div>
-
+            </div>
+        </>
     )
 }
