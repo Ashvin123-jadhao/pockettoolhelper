@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import styles from "./Sidebar.module.css"
+import Link from "next/link"
 
 const categories = {
     "Text Tools":[
@@ -32,18 +33,19 @@ export default function Sidebar(){
     }
 
     return(
-
         <div className={styles.sidebar}>
 
-            <div className={styles.logo}>PocketTools</div>
-
+            {/* Search */}
             <input
+                type="text"
                 className={styles.search}
                 placeholder="Search tools..."
+                aria-label="Search tools"
                 value={search}
                 onChange={(e)=>setSearch(e.target.value)}
             />
 
+            {/* Categories */}
             {Object.entries(categories).map(([category,tools])=>(
                 <div key={category}>
 
@@ -52,15 +54,18 @@ export default function Sidebar(){
                     {tools
                         .filter(tool=>filterTool(tool.name))
                         .map(tool=>(
-                            <a key={tool.url} href={tool.url} className={styles.link}>
+                            <Link
+                                key={tool.url}
+                                href={tool.url}
+                                className={styles.link}
+                            >
                                 {tool.name}
-                            </a>
+                            </Link>
                         ))}
 
                 </div>
             ))}
 
         </div>
-
     )
 }

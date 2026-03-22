@@ -1,95 +1,101 @@
-
 .container{
     max-width:1100px;
     margin:auto;
     padding:20px;
 }
 
+/* Title */
 .title{
-    font-size:32px;
-    font-weight:700;
+    font-size:30px;
     margin-bottom:8px;
-    color:#0f172a;
-    letter-spacing:-0.4px;
+    color:#020617;
+    font-weight:700;
 }
 
+/* Subtitle */
 .subtitle{
     font-size:15px;
-    color:#64748b;
+    color:rgba(2, 6, 23, 0.7);
     margin-bottom:18px;
 }
 
+/* Textarea */
 .textarea{
     width:100%;
     height:180px;
-    padding:14px;
-    font-size:15px;
-    border-radius:8px;
-    border:1px solid #94a3b8;
-    margin-top: 30px;
-    background:white;
-    color:#0f172a;
+
+    padding:16px;
+    font-size:17px;
+
+    border-radius:12px;
+
+    border:1px solid rgba(2, 6, 23, 0.86);
+
+    background:#ffffff;
+    color:rgba(2, 6, 23, 0.86);
+
+    transition: all 0.25s ease;
+}
+
+/* Keep spacing behavior intact */
+.textarea + .buttons,
+.textarea + .tool-buttons{
+    margin-top:16px;
 }
 
 .textarea:focus{
     outline:none;
     border-color:#2563eb;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.25);
 }
 
-.tool-buttons{
+/* Buttons */
+.buttons{
     margin-top:14px;
     display:flex;
-    gap:10px;
+    gap:12px;
     flex-wrap:wrap;
 }
 
-.btn{
-    padding:8px 16px;
-    border-radius:6px;
+/* Button */
+.button{
+    padding:10px 16px;
+
+    border-radius:10px;
     font-size:14px;
     font-weight:500;
-    border:none;
+
+    margin-bottom: 20px;
+
+    border:1px solid rgb(30, 45, 87);
+
+    background: rgba(255,255,255,0.05);
+    color:#1e2d57;
+
     cursor:pointer;
-    transition:all 0.2s ease;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    transition: all 0.2s ease;
 }
 
-.btn.primary{
-    background:#2563eb;
-    color:white;
+.button:hover{
+    background: rgba(37,99,235,0.2);
+    border-color:#2563eb;
+    color:#ffffff;
+
+    transform: translateY(-1px);
 }
 
-.btn.primary:hover{
-    background:#1d4ed8;
+.button:active{
+    transform: scale(0.98);
 }
 
-.btn.secondary{
-    background:#e2e8f0;
-    color:#0f172a;
-}
-
-.btn.secondary:hover{
-    background:#cbd5e1;
-}
-
-.btn.outline{
-    background:white;
-    border:1px solid #2563eb;
-    color:#2563eb;
-}
-
-.btn.outline:hover{
-    background:#eff6ff;
-}
-
+/* Error */
 .error{
-    margin-top:10px;
+    margin-top:12px;
     color:#dc2626;
     font-size:14px;
 }
 
+/* SEO */
 .seo{
     margin-top:40px;
     line-height:1.7;
