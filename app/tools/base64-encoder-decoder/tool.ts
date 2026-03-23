@@ -1,31 +1,36 @@
-/* Encode UTF-8 string to Base64 */
-
-export function encode(text: string) {
- const bytes = new TextEncoder().encode(text)
- let binary = ""
-
- bytes.forEach(b => {
-  binary += String.fromCharCode(b)
- })
-
- return btoa(binary)
+export function encodeBase64(text: string) {
+ return btoa(unescape(encodeURIComponent(text)))
 }
 
-/* Decode Base64 to UTF-8 string */
-
-export function decode(base64: string) {
-
+export function decodeBase64(text: string) {
  try {
-
-  const binary = atob(base64)
-
-  const bytes = new Uint8Array(
-      [...binary].map(c => c.charCodeAt(0))
-  )
-
-  return new TextDecoder().decode(bytes)
-
+  return decodeURIComponent(escape(atob(text)))
  } catch {
-  throw new Error("Invalid Base64 string")
+  return "Invalid Base64 string"
  }
+}
+
+export async function pasteClipboard(
+    textareaRef: React.RefObject<HTMLTextAreaElement>,
+    setText: (text: string) => void
+) {
+ const clipboardText = await navigator.clipboard.readText()
+ setText(clipboardText)
+ textareaRef.current?.focus()
+}
+
+export function copyText(text: string) {
+ navigator.clipboard.writeText(text)
+}
+
+export function downloadText(text: string) {
+ const blob = new Blob([text], { type: "text/plain" })
+ const url = URL.createObjectURL(blob)
+
+ const a = document.createElement("a")
+ a.href = url
+ a.download = "base64-output.txt"
+ a.click()
+
+ URL.revokeObjectURL(url)
 }

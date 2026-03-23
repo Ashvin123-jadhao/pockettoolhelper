@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import styles from "./json-formatter.module.css"
 
 import {
@@ -8,132 +8,156 @@ import {
     minifyJSON,
     validateJSON,
     sortJSONKeys,
-    removeEmptyValues,
+    cleanJSON,
     jsonToCSV,
-    searchJSON,
-    jsonToYAML
+    jsonToYAML,
+    pasteClipboard,
+    copyText,
+    downloadText
 } from "./tool"
 
 export default function JsonFormatterClient() {
 
-    const [input, setInput] = useState("")
-    const [output, setOutput] = useState("")
+    const [text, setText] = useState("")
     const [error, setError] = useState("")
-    const [searchTerm, setSearchTerm] = useState("")
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-    const safeRun = (fn: Function) => {
+    function handleAction(fn: (t: string) => string | { error?: string }) {
         try {
-            const result = fn()
-            setOutput(result)
-            setError("")
-        } catch (e:any) {
-            setError(e.message || "Invalid JSON")
-            setOutput("")
-        }
-    }
+            const result = fn(text)
 
-    const handleSearch = () => {
-        try {
-            const results = searchJSON(input, searchTerm)
-            setOutput(results.join("\n"))
-            setError("")
+            if (typeof result === "string") {
+                setText(result)
+                setError("")
+            } else if (result?.error) {
+                setError(result.error)
+            }
         } catch {
             setError("Invalid JSON")
         }
     }
 
-    const handleCopy = async () => {
-        if (!output) return
-        await navigator.clipboard.writeText(output)
+    function handleValidate() {
+        const res = validateJSON(text)
+        if (res) {
+            setError("Valid JSON ✅")
+        } else {
+            setError("Invalid JSON ❌")
+        }
     }
 
-    const handleDownload = () => {
-        const blob = new Blob([output], { type: "text/plain" })
-        const url = URL.createObjectURL(blob)
-
-        const a = document.createElement("a")
-        a.href = url
-        a.download = "result.txt"
-        a.click()
-
-        URL.revokeObjectURL(url)
-    }
-
-    const clearAll = () => {
-        setInput("")
-        setOutput("")
+    function clearText() {
+        setText("")
         setError("")
-        setSearchTerm("")
     }
 
     return (
         <div className={styles.container}>
 
-            <h1>JSON Formatter</h1>
+            <h1 className={styles.title}>
+                JSON Formatter
+            </h1>
 
             <textarea
+                ref={textareaRef}
                 className={styles.textarea}
-                placeholder="Paste JSON here..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                rows={10}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Paste your JSON here..."
             />
 
-            <div className={styles.buttonGroup}>
+            <div className={styles.buttons}>
 
-                <button onClick={() => safeRun(() => formatJSON(input))}>Format</button>
+                <button className={styles.button} onClick={() => handleAction(formatJSON)}>
+                    Format
+                </button>
 
-                <button onClick={() => safeRun(() => minifyJSON(input))}>Minify</button>
+                <button className={styles.button} onClick={() => handleAction(minifyJSON)}>
+                    Minify
+                </button>
 
-                <button onClick={() => safeRun(() =>
-                    validateJSON(input) ? "✅ Valid JSON" : "❌ Invalid JSON"
-                )}>Validate</button>
+                <button className={styles.button} onClick={handleValidate}>
+                    Validate
+                </button>
 
-                <button onClick={() => safeRun(() => sortJSONKeys(input))}>Sort Keys</button>
+                <button className={styles.button} onClick={() => handleAction(sortJSONKeys)}>
+                    Sort Keys
+                </button>
 
-                <button onClick={() => safeRun(() => removeEmptyValues(input))}>Clean JSON</button>
+                <button className={styles.button} onClick={() => handleAction(cleanJSON)}>
+                    Clean JSON
+                </button>
 
-                <button onClick={() => safeRun(() => jsonToCSV(input))}>JSON → CSV</button>
+                <button className={styles.button} onClick={() => handleAction(jsonToCSV)}>
+                    JSON → CSV
+                </button>
 
-                <button onClick={() => safeRun(() => jsonToYAML(input))}>
+                <button className={styles.button} onClick={() => handleAction(jsonToYAML)}>
                     JSON → YAML
+                </button>
+
+                <button
+                    className={styles.button}
+                    onClick={() => pasteClipboard(textareaRef, setText)}
+                >
+                    Paste
+                </button>
+
+                <button
+                    className={styles.button}
+                    onClick={() => copyText(text)}
+                >
+                    Copy
+                </button>
+
+                <button
+                    className={styles.button}
+                    onClick={() => downloadText(text)}
+                >
+                    Download
+                </button>
+
+                <button
+                    className={styles.button}
+                    onClick={clearText}
+                >
+                    Clear
                 </button>
 
             </div>
 
+            {error && (
+                <div
+                    className={
+                        error.includes("Valid")
+                            ? styles.success
+                            : styles.error
+                    }
+                >
+                    {error}
+                </div>
+            )}
 
+            {/* ✅ SEO BLOCK PRESERVED */}
+            <section className={styles.seo}>
 
-            <div className={styles.buttonGroup}>
+                <h2>Online JSON Formatter</h2>
 
-                <button onClick={handleCopy}>Copy</button>
+                <p>
+                    This tool helps you format, validate, clean, and convert JSON data instantly.
+                    It supports multiple transformations including CSV and YAML conversion.
+                </p>
 
-                <button onClick={handleDownload}>Download</button>
+                <h2>Why Use This Tool?</h2>
 
-                <button onClick={clearAll}>Clear</button>
+                <ul>
+                    <li>Beautify and minify JSON</li>
+                    <li>Validate JSON structure</li>
+                    <li>Sort and clean data</li>
+                    <li>Convert JSON to CSV or YAML</li>
+                </ul>
 
-            </div>
-
-            <div className={styles.searchBar}>
-
-                <input
-                    placeholder="Search value in JSON..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-
-                <button onClick={handleSearch}>Search</button>
-
-            </div>
-
-            {error && <div className={styles.error}>{error}</div>}
-
-            <textarea
-                className={styles.textarea}
-                value={output}
-                readOnly
-                rows={10}
-                placeholder="Output will appear here..."
-            />
+            </section>
 
         </div>
     )

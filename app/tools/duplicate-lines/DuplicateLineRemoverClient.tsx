@@ -1,23 +1,29 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import styles from "./duplicate-line-remover.module.css"
 
 import {
     removeDuplicates,
-    trimLines,
-    sortLines,
     pasteClipboard,
     copyText,
     downloadText
 } from "./tool"
 
-export default function DuplicateLineRemoverClient(){
+export default function DuplicateLineRemoverClient() {
 
-    const [text,setText] = useState("")
+    const [text, setText] = useState("")
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-    return(
+    function handleRemoveDuplicates() {
+        setText(removeDuplicates(text))
+    }
 
+    function clearText() {
+        setText("")
+    }
+
+    return (
         <div className={styles.container}>
 
             <h1 className={styles.title}>
@@ -25,86 +31,73 @@ export default function DuplicateLineRemoverClient(){
             </h1>
 
             <textarea
+                ref={textareaRef}
                 className={styles.textarea}
                 value={text}
-                onChange={(e)=>setText(e.target.value)}
-                placeholder="Paste text with duplicate lines..."
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Paste your text here..."
             />
 
             <div className={styles.buttons}>
 
                 <button
                     className={styles.button}
-                    onClick={()=>pasteClipboard(setText)}
-                >
-                    Paste
-                </button>
-
-                <button
-                    className={styles.button}
-                    onClick={()=>setText(removeDuplicates(text))}
+                    onClick={handleRemoveDuplicates}
                 >
                     Remove Duplicates
                 </button>
 
                 <button
                     className={styles.button}
-                    onClick={()=>setText(trimLines(text))}
+                    onClick={() => pasteClipboard(setText)}
                 >
-                    Trim Lines
+                    Paste
                 </button>
 
                 <button
                     className={styles.button}
-                    onClick={()=>setText(sortLines(text))}
-                >
-                    Sort Lines
-                </button>
-
-                <button
-                    className={styles.button}
-                    onClick={()=>copyText(text)}
+                    onClick={() => copyText(text)}
                 >
                     Copy
                 </button>
 
                 <button
                     className={styles.button}
-                    onClick={()=>downloadText(text)}
+                    onClick={() => downloadText(text)}
                 >
                     Download
                 </button>
 
+                <button
+                    className={styles.button}
+                    onClick={clearText}
+                >
+                    Clear
+                </button>
+
             </div>
 
+            {/* ✅ SEO BLOCK PRESERVED */}
             <section className={styles.seo}>
 
                 <h2>Remove Duplicate Lines Online</h2>
 
                 <p>
-                    This tool helps you quickly remove duplicate lines from
-                    text data. It is commonly used by developers, data
-                    analysts, and writers to clean lists and logs.
+                    This tool helps you quickly remove duplicate lines from your text.
+                    It is useful for cleaning up lists, logs, datasets, and copied content.
                 </p>
 
-                <h2>Use Cases</h2>
+                <h2>Why Use This Tool?</h2>
 
                 <ul>
-
-                    <li>Cleaning log files</li>
-
-                    <li>Removing duplicate keywords</li>
-
-                    <li>Processing CSV data</li>
-
-                    <li>Preparing unique lists</li>
-
+                    <li>Clean repeated data instantly</li>
+                    <li>Improve readability of text</li>
+                    <li>Prepare data for processing</li>
+                    <li>Save time on manual editing</li>
                 </ul>
 
             </section>
 
         </div>
-
     )
-
 }

@@ -1,66 +1,120 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import styles from "./tool.module.css"
-import { testRegex } from "./tool"
+
+import {
+    testRegex,
+    pasteClipboard,
+    copyText,
+    downloadText
+} from "./tool"
 
 export default function ToolClient() {
 
-    const [input,setInput] = useState("")
-    const [output,setOutput] = useState("")
-    const [pattern,setPattern] = useState("")
-    const [error,setError] = useState("")
+    const [pattern, setPattern] = useState("")
+    const [text, setText] = useState("")
+    const [result, setResult] = useState("")
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-    const handleTest = () => {
-        try {
+    function handleTest() {
+        setResult(testRegex(pattern, text))
+    }
 
-            const matches = testRegex(pattern,input)
-
-            setOutput(JSON.stringify(matches,null,2))
-            setError("")
-
-        } catch {
-            setError("Invalid regex pattern")
-            setOutput("")
-        }
+    function clearAll() {
+        setPattern("")
+        setText("")
+        setResult("")
     }
 
     return (
         <div className={styles.container}>
 
-            <h1 className={styles.title}>Regex Tester</h1>
+            <h1 className={styles.title}>
+                Regex Tester
+            </h1>
 
-            <textarea
-                className={styles.textarea}
-                placeholder="Input text"
-                value={input}
-                onChange={(e)=>setInput(e.target.value)}
-            />
-
+            {/* Pattern Input */}
             <input
-                className={styles.textarea}
-                placeholder="Regex pattern (example: \\d+)"
+                className={styles.input}
                 value={pattern}
-                onChange={(e)=>setPattern(e.target.value)}
+                onChange={(e) => setPattern(e.target.value)}
+                placeholder="Enter regex pattern (e.g. ^[a-z]+$)"
             />
 
-            <div className={styles["tool-buttons"]}>
-                <button
-                    className={`${styles.btn} ${styles.primary}`}
-                    onClick={handleTest}
-                >
-                    Test
+            {/* Text Area */}
+            <textarea
+                ref={textareaRef}
+                className={styles.textarea}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Enter text to test against..."
+            />
+
+            {/* Buttons */}
+            <div className={styles.buttons}>
+
+                <button className={styles.button} onClick={handleTest}>
+                    Test Regex
                 </button>
+
+                <button
+                    className={styles.button}
+                    onClick={() => pasteClipboard(textareaRef, setText)}
+                >
+                    Paste
+                </button>
+
+                <button
+                    className={styles.button}
+                    onClick={() => copyText(text)}
+                >
+                    Copy
+                </button>
+
+                <button
+                    className={styles.button}
+                    onClick={() => downloadText(text)}
+                >
+                    Download
+                </button>
+
+                <button
+                    className={styles.button}
+                    onClick={clearAll}
+                >
+                    Clear
+                </button>
+
             </div>
 
-            {error && <p className={styles.error}>{error}</p>}
+            {/* Result */}
+            {result && (
+                <div className={styles.result}>
+                    {result}
+                </div>
+            )}
 
-            <textarea
-                className={styles.textarea}
-                placeholder="Result"
-                value={output}
-                readOnly
-            />
+            {/* ✅ SEO BLOCK PRESERVED */}
+            <section className={styles.seo}>
+
+                <h2>Online Regex Tester</h2>
+
+                <p>
+                    This regex tester helps you validate and debug regular expressions.
+                    Enter your pattern and test it against any text instantly.
+                </p>
+
+                <h2>Why Use a Regex Tester?</h2>
+
+                <ul>
+                    <li>Debug complex patterns quickly</li>
+                    <li>Validate user input formats</li>
+                    <li>Test search and replace logic</li>
+                    <li>Improve development productivity</li>
+                </ul>
+
+            </section>
 
         </div>
     )
