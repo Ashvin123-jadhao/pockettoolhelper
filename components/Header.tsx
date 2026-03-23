@@ -112,7 +112,7 @@ const styles = {
     logoImg: {
         height: "120px",
         width: "auto",
-        objectFit: "contain",
+        objectFit: "contain" as const,
         marginTop: "30px"
     },
     nav: {
