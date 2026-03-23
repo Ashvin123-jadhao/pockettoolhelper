@@ -14,6 +14,59 @@ export function minifyJSON(input: string): string {
     const parsed = JSON.parse(input)
     return JSON.stringify(parsed)
 }
+export async function pasteClipboard(
+    textareaRef: React.RefObject<HTMLTextAreaElement>,
+    setText: (text: string) => void
+) {
+    const clipboardText = await navigator.clipboard.readText()
+    setText(clipboardText)
+    textareaRef.current?.focus()
+}
+
+export function copyText(text: string) {
+    navigator.clipboard.writeText(text)
+}
+
+export function downloadText(text: string) {
+    const blob = new Blob([text], { type: "application/json" })
+    const url = URL.createObjectURL(blob)
+
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "output.json"
+    a.click()
+
+    URL.revokeObjectURL(url)
+}
+
+export function cleanJSON(text: string) {
+    try {
+        const parsed = JSON.parse(text)
+
+        // Remove null / undefined values recursively
+        function clean(obj: any): any {
+            if (Array.isArray(obj)) {
+                return obj.map(clean)
+            }
+
+            if (obj && typeof obj === "object") {
+                const newObj: any = {}
+                for (const key in obj) {
+                    if (obj[key] !== null && obj[key] !== undefined) {
+                        newObj[key] = clean(obj[key])
+                    }
+                }
+                return newObj
+            }
+
+            return obj
+        }
+
+        return JSON.stringify(clean(parsed), null, 2)
+    } catch {
+        return text // do not break existing behavior
+    }
+}
 
 export function validateJSON(input: string): boolean {
     try {

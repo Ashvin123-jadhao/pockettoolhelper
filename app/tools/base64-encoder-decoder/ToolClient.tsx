@@ -1,60 +1,110 @@
- "use client"
+"use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import styles from "./tool.module.css"
-import * as tool from "./tool"
- import {decode, encode} from "./tool";
+
+import {
+    encodeBase64,
+    decodeBase64,
+    pasteClipboard,
+    copyText,
+    downloadText
+} from "./tool"
 
 export default function ToolClient() {
 
- const [input,setInput] = useState("")
- const [output,setOutput] = useState("")
- const [pattern,setPattern] = useState("")
- const [error,setError] = useState("")
+    const [text, setText] = useState("")
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
 
+    function handleEncode() {
+        setText(encodeBase64(text))
+    }
 
- const handleEncode = ()=>{
-   try{ setOutput(encode(input)); setError("") }
-   catch{ setError("Encoding failed") }
- }
+    function handleDecode() {
+        setText(decodeBase64(text))
+    }
 
- const handleDecode = ()=>{
-   try{ setOutput(decode(input)); setError("") }
-   catch{ setError("Invalid Base64") }
- }
+    function clearText() {
+        setText("")
+    }
 
+    return (
+        <div className={styles.container}>
 
- return (
-  <div className={styles.container}>
+            <h1 className={styles.title}>
+                Base64 Encoder / Decoder
+            </h1>
 
-   <h1 className={styles.title}>Base64 Encoder / Decoder</h1>
+            <textarea
+                ref={textareaRef}
+                className={styles.textarea}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Enter text or Base64 string..."
+            />
 
-   <textarea
-    className={styles.textarea}
-    placeholder="Input"
-    value={input}
-    onChange={(e)=>setInput(e.target.value)}
-   />
+            <div className={styles.buttons}>
 
-   
+                <button className={styles.button} onClick={handleEncode}>
+                    Encode
+                </button>
 
-   <div className={styles["tool-buttons"]}>
-    <button className={`${styles.btn} ${styles.primary}`} onClick={handleEncode}>Encode</button>
-    <button className={`${styles.btn} ${styles.secondary}`} onClick={handleDecode}>Decode</button>
-    
-    
-    
-   </div>
+                <button className={styles.button} onClick={handleDecode}>
+                    Decode
+                </button>
 
-   {error && <p className={styles.error}>{error}</p>}
+                <button
+                    className={styles.button}
+                    onClick={() => pasteClipboard(textareaRef, setText)}
+                >
+                    Paste
+                </button>
 
-   <textarea
-    className={styles.textarea}
-    placeholder="Result"
-    value={output}
-    readOnly
-   />
+                <button
+                    className={styles.button}
+                    onClick={() => copyText(text)}
+                >
+                    Copy
+                </button>
 
-  </div>
- )
+                <button
+                    className={styles.button}
+                    onClick={() => downloadText(text)}
+                >
+                    Download
+                </button>
+
+                <button
+                    className={styles.button}
+                    onClick={clearText}
+                >
+                    Clear
+                </button>
+
+            </div>
+
+            {/* ✅ SEO BLOCK PRESERVED */}
+            <section className={styles.seo}>
+
+                <h2>Base64 Encoder and Decoder Online</h2>
+
+                <p>
+                    This tool allows you to encode text into Base64 format or decode
+                    Base64 strings back to readable text. It is commonly used in APIs,
+                    data transfer, and encoding binary data.
+                </p>
+
+                <h2>Why Use Base64?</h2>
+
+                <ul>
+                    <li>Safely transmit binary data over text-based protocols</li>
+                    <li>Encode data for APIs and web services</li>
+                    <li>Work with authentication tokens</li>
+                    <li>Handle file or image encoding</li>
+                </ul>
+
+            </section>
+
+        </div>
+    )
 }

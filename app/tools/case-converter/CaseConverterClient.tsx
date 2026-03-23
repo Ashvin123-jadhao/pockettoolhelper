@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import styles from "./case-converter.module.css"
 
 import {
@@ -17,9 +17,13 @@ import {
 export default function CaseConverterClient() {
 
     const [text, setText] = useState("")
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+    function clearText() {
+        setText("")
+    }
 
     return (
-
         <div className={styles.container}>
 
             <h1 className={styles.title}>
@@ -27,6 +31,7 @@ export default function CaseConverterClient() {
             </h1>
 
             <textarea
+                ref={textareaRef}
                 className={styles.textarea}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
@@ -35,46 +40,31 @@ export default function CaseConverterClient() {
 
             <div className={styles.buttons}>
 
+                <button className={styles.button} onClick={() => setText(toUpperCase(text))}>
+                    UPPERCASE
+                </button>
+
+                <button className={styles.button} onClick={() => setText(toLowerCase(text))}>
+                    lowercase
+                </button>
+
+                <button className={styles.button} onClick={() => setText(toTitleCase(text))}>
+                    Title Case
+                </button>
+
+                <button className={styles.button} onClick={() => setText(toSentenceCase(text))}>
+                    Sentence case
+                </button>
+
+                <button className={styles.button} onClick={() => setText(toggleCase(text))}>
+                    tOGGLE cASE
+                </button>
+
                 <button
                     className={styles.button}
                     onClick={() => pasteClipboard(setText)}
                 >
                     Paste
-                </button>
-
-                <button
-                    className={styles.button}
-                    onClick={() => setText(toUpperCase(text))}
-                >
-                    UPPERCASE
-                </button>
-
-                <button
-                    className={styles.button}
-                    onClick={() => setText(toLowerCase(text))}
-                >
-                    lowercase
-                </button>
-
-                <button
-                    className={styles.button}
-                    onClick={() => setText(toTitleCase(text))}
-                >
-                    Title Case
-                </button>
-
-                <button
-                    className={styles.button}
-                    onClick={() => setText(toSentenceCase(text))}
-                >
-                    Sentence case
-                </button>
-
-                <button
-                    className={styles.button}
-                    onClick={() => setText(toggleCase(text))}
-                >
-                    Toggle Case
                 </button>
 
                 <button
@@ -91,8 +81,16 @@ export default function CaseConverterClient() {
                     Download
                 </button>
 
+                <button
+                    className={styles.button}
+                    onClick={clearText}
+                >
+                    Clear
+                </button>
+
             </div>
 
+            {/* ✅ RESTORED SEO SECTION (UNCHANGED CONTENT) */}
             <section className={styles.seo}>
 
                 <h2>Online Case Converter</h2>
@@ -115,7 +113,5 @@ export default function CaseConverterClient() {
             </section>
 
         </div>
-
     )
-
 }
